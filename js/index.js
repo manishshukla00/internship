@@ -3,8 +3,7 @@
 // console.log(a);
 // a = 10;
 // // reassignedVariable
-// console.log(a);
-
+// console.log(a);SS
 // let b = "name";
 // // dynimacally typed variable
 // console.log(b);
