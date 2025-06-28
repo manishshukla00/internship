@@ -1,18 +1,47 @@
-import React from "react";
-import Body from "../components/Body";
+import requests from "../Request";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 const Home = () => {
+  const [urlData, setUrlData] = useState([]);
+  console.log(urlData);
+
+  const getData = async () => {
+    axios
+      .get(requests.requestPopular)
+      .then((res) => {
+        // console.log(res.data.results[0].id);
+        return setUrlData(res.data.results);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
-      <div className="w-3/4 h-screen border-2 border-b-black m-auto">
-        Main div
-        <div className="w-[400px] h-[400px] grid grid-cols-2 border-2 border-b-black">
-          <div className="w-[40px] h-[40px] border-2 border-b-black">1</div>
-          <div className="w-[40px] h-[40px] border-b-black border-2">2</div>
-          <div className="w-[40px] h-[40px] border-b-black border-2">3</div>
-          <div className="w-[40px] h-[40px] border-b-black border-2">4</div>
-        </div>
-      </div>
+      {urlData.map((elem) => {
+        console.log(elem.backdrop_path);
+        return (
+          <div className="w-full h-screen flex flex-col bg-gray-800">
+            <img
+              key={elem.id}
+              src={`https://image.tmdb.org/t/p/w400/${elem?.backdrop_path}`}
+              alt=""
+            />
+          </div>
+        );
+      })}
+      <button
+        className="p-4 bg-orange-950 text-white rounded-xl hover:bg-orange-700 transition-all duration-300"
+        onClick={getData}
+      >
+        Get Data
+      </button>
     </>
   );
 };
